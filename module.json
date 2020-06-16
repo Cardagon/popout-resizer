@@ -10,6 +10,6 @@
 		"./popout-resizer.js"
 	],
 	"url": "https://gitlab.com/jsmall95/popout-resizer",
-	"download": "https://gitlab.com/jsmall95/popout-resizer/-/raw/master/popout-resizer.zip",
+	"download": "https://gitlab.com/jsmall95/popout-resizer/-/jobs/artifacts/master/download?job=zip",
 	"manifest": "https://gitlab.com/jsmall95/popout-resizer/-/raw/master/module.json"
 }
