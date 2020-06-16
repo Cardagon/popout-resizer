@@ -2,11 +2,12 @@
 	"name": "combat-tracker-resizer",
 	"title": "Combat Tracker Resizer",
 	"description": "A simple module that allows you to resize the pop-out combat tracker",
-	"author": "Jsmall",
-	"url": "https://gitlab.com/jsmall95",
-	"version": "0.0.1",
+	"version": "0.1",
+	"author": "jsmall95",
 	"minimumCoreVersion": "0.6.2",
 	"scripts": [
-		"./scripts/combat-tracker-resizer.js"
-	]
+		"./popout-resizer.js"
+	],
+	"url": "https://gitlab.com/jsmall95/popout-resizer",
+	"manifest": "https://gitlab.com/jsmall95/popout-resizer/-/raw/master/module.json"
 }
