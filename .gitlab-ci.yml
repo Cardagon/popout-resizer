@@ -4,12 +4,8 @@ stages:
 
 zip:
     stage: zip
-    script:
-        - echo "Zipping module contents"
-        - mkdir downloads
-        - mv popout-resizer.js downloads/
-        - mv module.json downloads/
     artifacts:
         name: "popout-resizer"
         paths:
-        - downloads/*
+        - popout-resizer.js
+        - module.json
