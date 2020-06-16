@@ -1,0 +1,16 @@
+stages:
+    - zip
+    - test
+
+zip:
+    stage: zip
+    script:
+        - echo "Zipping module contents"
+        - mkdir downloads
+        - zip downloads/popout-resizer.zip
+        
+test:
+    stage: test
+    script:
+        - echo "Testing zip was created"
+        - test -f "downloads/popout-resizer.zip"
