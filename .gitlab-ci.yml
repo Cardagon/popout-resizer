@@ -5,14 +5,11 @@ stages:
 zip:
     stage: zip
     script:
-        - echo "Installing Zip"
-        - apt-get install zip unzip
         - echo "Zipping module contents"
         - mkdir downloads
-        - zip downloads/popout-resizer.zip popout-resizer.js module.json
-        
-test:
-    stage: test
-    script:
-        - echo "Testing zip was created"
-        - test -f downloads/popout-resizer.zip
+        - mv popout-resizer.js downloads/
+        - mv module.json downloads/
+    artifacts:
+        name: "popout-resizer"
+        paths:
+        - downloads/*
