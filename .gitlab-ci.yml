@@ -4,6 +4,8 @@ stages:
 
 zip:
     stage: zip
+    script:
+        - echo "Creating zip file"
     artifacts:
         name: "popout-resizer"
         paths:
