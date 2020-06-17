@@ -9,12 +9,12 @@ A [FoundryVTT](http://foundryvtt.com/) module to give the users the ability to r
 1. Go to Foundry's Setup screen
 1. Go to the "Add-On Modules" tab
 1. Press "Install Module"
-1. Paste `https://gitlab.com/jsmall95/popout-resizer/-/raw/master/module.json` into the text field
+1. Paste `https://gitlab.com/cardagon/popout-resizer/-/raw/master/module.json` into the text field
 1. Press "Install"
 
 ## Alternative
 
-1. Download [this zip file](https://gitlab.com/jsmall95/popout-resizer/-/jobs/artifacts/master/download?job=zip)
+1. Download [this zip file](https://gitlab.com/cardagon/popout-resizer/-/jobs/artifacts/master/download?job=zip)
 2. Extract it into the `<FoundryVTT directory>/resources/app/public/modules`-folder
 
 # Features
