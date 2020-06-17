@@ -33,4 +33,4 @@ Currently there is still a restriction on the min width and height of the window
 
 # Contact
 
-If you have any questions about the module or troubles, feel free to create an issue here or send me a ping in the discord channel @jsmall95
+If you have any questions about the module or troubles, feel free to create an issue here or send me a ping in the FoundryVTT discord channel @Cardagon
