@@ -34,3 +34,11 @@ Currently there is still a restriction on the min width and height of the window
 # Contact
 
 If you have any questions about the module or troubles, feel free to create an issue here or send me a ping in the FoundryVTT discord channel @Cardagon
+
+# Updates
+
+## 0.2 - 2020-6-18
+- Fixing bug that would remove re-sizing when ending turn, or changing turn on the combat tracker
+
+## 0.1 - 2020-6-16
+- Ability to re-size popouts from the side toolbar
