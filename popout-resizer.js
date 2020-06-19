@@ -58,10 +58,12 @@ class ResizablePopout {
     }
 }
 
-// Hook into all render sidebar tabs this will fire for every sidebar tab
-Hooks.on("renderSidebarTab", PopoutResizer.sidebarTabRendered);
+Hooks.once("init", async () => {
+    // Hook into all render sidebar tabs this will fire for every sidebar tab
+    Hooks.on("renderSidebarTab", PopoutResizer.sidebarTabRendered);
 
-// Handle combat tracker for PF2E
-if(game.system.id === 'pf2e') {
-    Hooks.on('renderCombatTracker', PopoutResizer.sidebarTabRendered);
-}
+    // Handle combat tracker for PF2E
+    if(game.system.id === 'pf2e') {
+        Hooks.on('renderCombatTracker', PopoutResizer.sidebarTabRendered);
+    }
+});

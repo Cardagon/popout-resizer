@@ -37,6 +37,9 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
+## 0.4 - 2020-6-19
+- Fixing error introduced in 0.3
+
 ## 0.3 - 2020-6-19
 - Adding support for PF2E
 
