@@ -37,6 +37,9 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
+## 0.3 - 2020-6-19
+- Adding support for PF2E
+
 ## 0.2 - 2020-6-18
 - Fixing bug that would remove re-sizing when ending turn, or changing turn on the combat tracker
 
