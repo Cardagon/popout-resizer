@@ -11,13 +11,8 @@ A [FoundryVTT](http://foundryvtt.com/) module to give the users the ability to r
 1. Go to Foundry's Setup screen
 1. Go to the "Add-On Modules" tab
 1. Press "Install Module"
-1. Paste `https://gitlab.com/cardagon/popout-resizer/-/raw/master/module.json` into the text field
+1. Paste `https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json` into the text field
 1. Press "Install"
-
-## Alternative
-
-1. Download [this zip file](https://gitlab.com/cardagon/popout-resizer/-/jobs/artifacts/master/download?job=zip)
-2. Extract it into the `<FoundryVTT directory>/resources/app/public/modules`-folder
 
 # Features
 
@@ -36,6 +31,9 @@ Currently there is still a restriction on the min width and height of the window
 If you have any questions about the module or troubles, feel free to create an issue here or send me a ping in the FoundryVTT discord channel @Cardagon
 
 # Updates
+
+## 0.4.1 - 2020-6-22
+- Migrated repo to github from gitlab, no feature changes
 
 ## 0.4 - 2020-6-19
 - Fixing error introduced in 0.3
