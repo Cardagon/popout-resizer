@@ -1,5 +1,7 @@
 # Popout Resizer
 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/cardagon/popout-resizer?style=for-the-badge)  ![GitHub Releases](https://img.shields.io/github/downloads/cardagon/popout-resizer/latest/total?style=for-the-badge) ![GitHub All Releases](https://img.shields.io/github/downloads/cardagon/popout-resizer/total?style=for-the-badge&label=Downloads+total)
+
 A [FoundryVTT](http://foundryvtt.com/) module to give the users the ability to resize their pop-out windows from the side toolbar.
 
 # Installation
@@ -22,8 +24,6 @@ A [FoundryVTT](http://foundryvtt.com/) module to give the users the ability to r
 Resize your pop-outs to fit your needs.
 The combat tracker can be a little large when popped out especially when you have a large number of combatants.
 This can be used to resize the popup to be smaller while still providing a scroll bar to allow easy access to all required information.
-
-
 
 # Notes
 
