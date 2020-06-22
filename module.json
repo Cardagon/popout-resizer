@@ -2,14 +2,14 @@
 	"name": "popout-resizer",
 	"title": "Popout Resizer",
 	"description": "A simple module that allows you to resize the side toolbar popouts such as the combat tracker, scenes, actors and compendiums.",
-	"version": "0.4.3",
+	"version": "0.5",
 	"author": "cardagon",
 	"minimumCoreVersion": "0.6.0",
 	"compatibleCoreVersion": "0.6.2",
 	"scripts": [
 		"./popout-resizer.js"
 	],
-	"url": "https://gitlab.com/cardagon/popout-resizer",
-	"download": "https://gitlab.com/cardagon/popout-resizer/-/jobs/artifacts/master/download?job=zip",
-	"manifest": "https://gitlab.com/cardagon/popout-resizer/-/raw/master/module.json"
+	"url": "https://github.com/Cardagon/popout-resizer",
+	"download": "https://github.com/Cardagon/popout-resizer/releases/download/v0.5/v0.5.zip",
+	"manifest": "https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json"
 }

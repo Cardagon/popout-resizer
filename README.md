@@ -32,7 +32,7 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
-## 0.4.3 - 2020-6-22
+## 0.5 - 2020-6-22
 - Migrated repo to github from gitlab, no feature changes
 
 ## 0.4 - 2020-6-19
