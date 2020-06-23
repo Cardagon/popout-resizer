@@ -15,22 +15,35 @@ A [FoundryVTT](http://foundryvtt.com/) module to give the users the ability to r
 1. Press "Install"
 
 # Features
-
-Resize your pop-outs to fit your needs.
-The combat tracker can be a little large when popped out especially when you have a large number of combatants.
-This can be used to resize the popup to be smaller while still providing a scroll bar to allow easy access to all required information.
-
-# Notes
-
-I originally designed this with the combat tracker in mind so it is really the only one I have extensively tested.
-That being said this module should work with any of the popout windows from the toolbar menu.
-Currently there is still a restriction on the min width and height of the window but I am currently working on removing that so you will have full control over the size of the pop-up.
+- All popouts from the side bar are resizable (minimum height and width is 200 px)
+    - Combat Tracker
+    - Scenes
+    - Actors
+    - Journals
+    - Items
+    - Tables
+    - Playlists
+    - Compendiums
+    - Configuration
+- A default height and width can be set in the configuration menu for popouts
+- The size and position of popouts can be remembered in between session to maintain preferred layouts
 
 # Contact
 
 If you have any questions about the module or troubles, feel free to create an issue here or send me a ping in the FoundryVTT discord channel @Cardagon
 
 # Updates
+
+## 0.6 - 2020-6-23
+- Added configuration menu
+    - Default Width
+    - Default Height
+    - Remember Size and Position
+- Popouts will now be opened according to the default width and height set in configuration menu (set per user)
+- If the "Remember Size and Position" option is enabled popouts will now re-open to the same size and position they were last closed at
+    - This is remembered in between sessions
+    - This is per user
+- Cleaned up code and removed some redundancies 
 
 ## 0.5 - 2020-6-22
 - Migrated repo to github from gitlab, no feature changes

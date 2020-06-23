@@ -5,7 +5,7 @@
 	"version": "0.6",
 	"author": "cardagon",
 	"minimumCoreVersion": "0.6.0",
-	"compatibleCoreVersion": "0.6.2",
+	"compatibleCoreVersion": "0.6.4",
 	"scripts": [
 		"./scripts/popout-resizer.js",
 		"./scripts/register-settings.js"
