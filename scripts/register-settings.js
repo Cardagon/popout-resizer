@@ -39,7 +39,7 @@ function registerSettings() {
         }
     });
 
-    /* Saved Combat Tracker Size and Position */
+    /* Saved Popout Sizes and Positions */
     game.settings.register('popout-resizer', 'popout-resizer-settings', {
         scope: 'client',
         config: false,
