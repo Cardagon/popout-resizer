@@ -34,6 +34,10 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
+## 0.7 - 2020-6-25
+- Changed scripts to esmodules
+- Resolved issue where pin-cushion was grabbing wrong registerSettings method this has been resolved by using esmodules
+
 ## 0.6 - 2020-6-23
 - Added configuration menu
     - Default Width

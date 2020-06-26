@@ -1,20 +1,7 @@
-Hooks.once("init", async () => {
-    // Hook into all render sidebar tabs this will fire for every sidebar tab
-    Hooks.on("renderSidebarTab", PopoutResizer.sidebarTabRendered);
-
-    // Handle combat tracker for PF2E
-    if(game.system.id === 'pf2e') {
-        Hooks.on('renderCombatTracker', PopoutResizer.sidebarTabRendered);
-    }
-
-    registerSettings();
-    initializeSettings();
-});
-
 /**
  * Static class that handles the sidebar tab rendered hook
  */
-class PopoutResizer {
+export class PopoutResizer {
 
     static defaultWidth = 300;
     static defaultHeight = 400;
