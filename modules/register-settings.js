@@ -1,4 +1,6 @@
-function registerSettings() {
+import { PopoutResizer } from './popout-resizer.js';
+
+export function registerSettings() {
 
     /* Default Popout Width */
     game.settings.register('popout-resizer', 'defaultWidth', {
@@ -52,7 +54,7 @@ function registerSettings() {
 
 }
 
-function initializeSettings() {
+export function initializeSettings() {
     PopoutResizer.defaultWidth = game.settings.get('popout-resizer', 'defaultWidth');
     PopoutResizer.defaultHeight = game.settings.get('popout-resizer', 'defaultHeight');
     
