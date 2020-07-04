@@ -35,7 +35,7 @@ export function registerSettings() {
         scope: 'client',
         config: true,
         type: Boolean,
-        default: false,
+        default: true,
         onChange: value => {
             PopoutResizer.rememberSize = value;
         }

@@ -24,6 +24,9 @@ export class PopoutResizer {
             // If we are supposed to remember size or if the popout is already open
             if(resizeData && (resizeHandled || PopoutResizer.rememberSize)) {
                 obj.setPosition({left: resizeData.left, top: resizeData.top, width: resizeData.width, height: resizeData.height});
+                if(obj.tabName === 'combat') {
+                    obj.scrollToTurn();
+                }
             } else {
                 obj.setPosition({width: PopoutResizer.defaultWidth, height: PopoutResizer.defaultHeight});
             }

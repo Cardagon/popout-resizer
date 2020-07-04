@@ -34,6 +34,11 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
+## 1.0 - 2020-7-3
+- Added scroll to turn so that switching to next turn / previous turn does scroll to top for combat tracker
+- Changing remember last popout size to true by default
+- Stable release
+
 ## 0.7 - 2020-6-25
 - Changed scripts to esmodules
 - Resolved issue where pin-cushion was grabbing wrong registerSettings method this has been resolved by using esmodules
