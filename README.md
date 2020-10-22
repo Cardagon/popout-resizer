@@ -34,6 +34,9 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
+## 1.1 - 2020-10-21
+- Confirmed support for Foundry Core 0.7.5
+
 ## 1.0 - 2020-7-3
 - Added scroll to turn so that switching to next turn / previous turn does scroll to top for combat tracker
 - Changing remember last popout size to true by default
