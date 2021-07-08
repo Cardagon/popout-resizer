@@ -4,8 +4,8 @@ export function registerSettings() {
 
     /* Default Popout Width */
     game.settings.register('popout-resizer', 'defaultWidth', {
-        name: 'Default Popout Width (Pixels)',
-        hint: 'Default width of the popouts',
+        name: game.i18n.localize('POPOUTRESIZER.DefaultWidth.Name'),
+        hint: game.i18n.localize('POPOUTRESIZER.DefaultWidth.Hint'),
         scope: 'client',
         config: true,
         type: Number,
@@ -17,8 +17,8 @@ export function registerSettings() {
 
     /* Default Popout Height */
     game.settings.register('popout-resizer', 'defaultHeight', {
-        name: 'Default Popout Height (Pixels)',
-        hint: 'Default height of the popouts',
+        name: game.i18n.localize('POPOUTRESIZER.DefaultHeight.Name'),
+        hint: game.i18n.localize('POPOUTRESIZER.DefaultHeight.Hint'),
         scope: 'client',
         config: true,
         type: Number,
@@ -30,8 +30,8 @@ export function registerSettings() {
     
     /* Enable/Disable Saving Popout Size and Position */
     game.settings.register('popout-resizer', 'rememberSize', {
-        name: 'Remember size and position?',
-        hint: 'Saves latest re-size and position of pop outs',
+        name: game.i18n.localize('POPOUTRESIZER.RememberSize.Name'),
+        hint: game.i18n.localize('POPOUTRESIZER.RememberSize.Hint'),
         scope: 'client',
         config: true,
         type: Boolean,
