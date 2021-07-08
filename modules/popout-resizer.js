@@ -51,7 +51,7 @@ class ResizablePopout {
         if(this.handle) {
             this.handle.addEventListener('mousedown', e => this._onResizeMouseDown(e), false);
         } else {
-            console.error('Resize handler does not exist on popout for app: ' + this.app.id);
+            console.error(game.i18n.format('POPOUTRESIZER.NoResizeHandlerError', {appId : this.app.id}));
         }
 
         this.app.resizeHandled = true;
