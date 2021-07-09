@@ -1,0 +1,10 @@
+{
+    "POPOUTRESIZER.DefaultWidth.Name": "Standard Popout Breite (Pixel)",
+    "POPOUTRESIZER.DefaultWidth.Hint": "Standard Breite des Popouts",
+    "POPOUTRESIZER.DefaultHeight.Name": "Standard Popout Höhe (Pixel)",
+    "POPOUTRESIZER.DefaultHeight.Hint": "Standard Höhe des Popouts",
+    "POPOUTRESIZER.RememberSize.Name": "Speichere Größe und Position?",
+    "POPOUTRESIZER.RememberSize.Hint": "Speichert die letzte Größe und Position der Popouts",
+
+    "POPOUTRESIZER.NoResizeHandlerError": "Resize handler existiert nicht auf Popout für Anwendung: {appId}"
+}
