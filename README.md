@@ -36,6 +36,7 @@ If you have any questions about the module or troubles, feel free to create an i
 
 ## 1.4 - 2020-07-08
 - Add support for localization
+- Add support for german language
 
 ## 1.1 - 2020-10-21
 - Confirmed support for Foundry Core 0.7.5
