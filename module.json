@@ -3,15 +3,13 @@
 	"name": "popout-resizer",
 	"title": "Popout Resizer",
 	"description": "A simple module that allows you to resize the side toolbar popouts such as the combat tracker, scenes, actors and compendiums.",
-	"version": "1.4.5",
+	"version": "1.5.0",
 	"author": "cardagon",
     "authors": [{ "name": "cardagon" }],
-	"minimumCoreVersion": "0.6.0",
-	"compatibleCoreVersion": "9",
 	"compatibility": {
 	    "minimum": 9,
-    	"verified": "10.291",
-    	"maximum": "10"
+    	"verified": "11.306",
+    	"maximum": "11"
 	},
 	"esmodules": [
 		"./main.js"

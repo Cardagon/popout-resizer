@@ -34,6 +34,9 @@ If you have any questions about the module or troubles, feel free to create an i
 
 # Updates
 
+## 1.5 - 2023-07-24
+- Add support for V11
+
 ## 1.4 - 2020-07-08
 - Add support for localization
 - Add support for german language
