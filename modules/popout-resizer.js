@@ -43,13 +43,13 @@ class ResizablePopout {
         this.html = html;
 
         const header = html.find('header')[0];
-        header.addEventListener('mousedown', e => this._onDragMouseDown(e), false);
+        header.addEventListener('pointerdown', e => this._onDragMouseDown(e), false);
         
         this.dragHandler = new Draggable(app, html, header, true);
         
         this.handle = this.html.find('.window-resizable-handle')[0];
         if(this.handle) {
-            this.handle.addEventListener('mousedown', e => this._onResizeMouseDown(e), false);
+            this.handle.addEventListener('pointerdown', e => this._onResizeMouseDown(e), false);
         } else {
             console.error(game.i18n.format('POPOUTRESIZER.NoResizeHandlerError', {appId : this.app.id}));
         }
@@ -59,11 +59,11 @@ class ResizablePopout {
     }
 
     _onDragMouseDown(event) {
-        window.addEventListener('mouseup', e => this._onDragMouseUp(e), false);
+        window.addEventListener('pointerup', e => this._onDragMouseUp(e), false);
     }
 
     _onDragMouseUp(event) {
-        window.removeEventListener('mouseup', e => this._onDragMouseUp(e), false);
+        window.removeEventListener('pointerup', e => this._onDragMouseUp(e), false);
 
         let resizeData = {
             width: this.app.position.width, 
@@ -78,12 +78,12 @@ class ResizablePopout {
 
     // Begin capturing mouse up events to record new window size
     _onResizeMouseDown(event) {
-        window.addEventListener('mouseup', e => this._onResizeMouseUp(e), false);
+        window.addEventListener('pointerup', e => this._onResizeMouseUp(e), false);
     }
 
     // On mouse up record window size as the resize event has ended
     _onResizeMouseUp(event) {
-        window.removeEventListener('mouseup', e => this._onResizeMouseUp(e), false);
+        window.removeEventListener('pointerup', e => this._onResizeMouseUp(e), false);
 
         let resizeData = {
             width: this.app.position.width, 
