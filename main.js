@@ -3,7 +3,6 @@ import * as PopoutResizer from './modules/popout-resizer.js';
 
 Hooks.on("init", async () => {
     Hooks.on('renderApplicationV2', (app, html, data, flags) => {
-        console.log('in renderApplicationV2! got:', app, html, data, flags);
         PopoutResizer.PopoutResizer.sidebarTabRendered(app, $(html), data);
     });
 
