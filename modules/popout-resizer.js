@@ -11,20 +11,16 @@ export class PopoutResizer {
     static sidebarTabRendered(obj, html, data) {
 
         // Only handle this event if the obj in question is a popout
-        if(obj.options.popOut){
+        if(html.hasClass("sidebar-popout")){
 
             // Get existing size data
-            let resizeData = PopoutResizer.popoutResizerSettings[obj.tabName];
-            let resizeHandled = obj.resizeHandled;
-
-            if(!resizeHandled){
-                var resizablePopout = new ResizablePopout(obj, html);
-            }
+            let resizeData = PopoutResizer.popoutResizerSettings[obj.title];
+            var resizablePopout = new ResizablePopout(obj, html);
 
             // If we are supposed to remember size or if the popout is already open
-            if(resizeData && (resizeHandled || PopoutResizer.rememberSize)) {
+            if(resizeData && PopoutResizer.rememberSize) {
                 obj.setPosition({left: resizeData.left, top: resizeData.top, width: resizeData.width, height: resizeData.height});
-                if(obj.tabName === 'combat') {
+                if(obj.title === 'combat') {
                     obj.scrollToTurn();
                 }
             } else {
@@ -45,7 +41,7 @@ class ResizablePopout {
         const header = html.find('header')[0];
         header.addEventListener('pointerdown', e => this._onDragMouseDown(e), false);
         
-        this.dragHandler = new Draggable(app, html, header, true);
+        this.dragHandler = new foundry.applications.ux.Draggable(app, html, header, true);
         
         this.handle = this.html.find('.window-resizable-handle')[0];
         if(this.handle) {
@@ -53,9 +49,6 @@ class ResizablePopout {
         } else {
             console.error(game.i18n.format('POPOUTRESIZER.NoResizeHandlerError', {appId : this.app.id}));
         }
-
-        this.app.resizeHandled = true;
-        this.app.options.height = null;
     }
 
     _onDragMouseDown(event) {
@@ -72,7 +65,7 @@ class ResizablePopout {
             left: this.app.position.left
         };
 
-        PopoutResizer.popoutResizerSettings[this.app.tabName] = resizeData;
+        PopoutResizer.popoutResizerSettings[this.app.title] = resizeData;
         game.settings.set('popout-resizer', 'popout-resizer-settings', PopoutResizer.popoutResizerSettings);
     }
 
@@ -92,7 +85,7 @@ class ResizablePopout {
             left: this.app.position.left
         };
 
-        PopoutResizer.popoutResizerSettings[this.app.tabName] = resizeData;
+        PopoutResizer.popoutResizerSettings[this.app.title] = resizeData;
         game.settings.set('popout-resizer', 'popout-resizer-settings', PopoutResizer.popoutResizerSettings);
     }
 }

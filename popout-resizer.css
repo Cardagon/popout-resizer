@@ -1,3 +1,8 @@
 .app.sidebar-popout {
     min-height: 200px;
 }
+
+.sidebar-popout .window-resizable-handle {
+    display: grid;
+    justify-items: end;
+}
