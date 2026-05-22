@@ -1,80 +1,52 @@
 # Popout Resizer
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/cardagon/popout-resizer?style=for-the-badge)  ![GitHub Releases](https://img.shields.io/github/downloads/cardagon/popout-resizer/latest/total?style=for-the-badge) ![GitHub All Releases](https://img.shields.io/github/downloads/cardagon/popout-resizer/total?style=for-the-badge&label=Downloads+total)
+Popout Resizer lets you resize Foundry VTT sidebar popout windows, including combat, scenes, actors, journals, items, roll tables, playlists, compendiums, and settings.
 
-A [FoundryVTT](http://foundryvtt.com/) module to give the users the ability to resize their pop-out windows from the side toolbar.
+## Install
 
-# Installation
+In Foundry, open **Add-on Modules > Install Module**, paste a manifest URL into **Manifest URL**, and install.
 
-## Recommended
+Official upstream channel:
 
-1. Go to Foundry's Setup screen
-1. Go to the "Add-On Modules" tab
-1. Press "Install Module"
-1. Paste `https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json` into the text field
-1. Press "Install"
+```text
+https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json
+```
 
-# Features
-- All popouts from the side bar are resizable (minimum height and width is 200 px)
-    - Combat Tracker
-    - Scenes
-    - Actors
-    - Journals
-    - Items
-    - Tables
-    - Playlists
-    - Compendiums
-    - Configuration
-- A default height and width can be set in the configuration menu for popouts
-- The size and position of popouts can be remembered in between session to maintain preferred layouts
+Spencer's Foundry V14 compatibility build:
 
-# Contact
+```text
+https://github.com/SpencerZPoole/popout-resizer/releases/latest/download/module.json
+```
 
-If you have any questions about the module or troubles, feel free to create an issue here or send me a ping in the FoundryVTT discord channel @Cardagon
+After installation, enable **Popout Resizer** in your world's **Manage Modules** menu.
 
-# Updates
+## Compatibility
 
-## 1.5 - 2023-07-24
-- Add support for V11
+- Module version: `1.6.1`
+- Foundry minimum: `13`
+- Verified with Foundry: `14.362`
 
-## 1.4 - 2020-07-08
-- Add support for localization
-- Add support for german language
+This release keeps the original module behavior while making sidebar popout resizing work with Foundry's V13/V14 application rendering.
 
-## 1.1 - 2020-10-21
-- Confirmed support for Foundry Core 0.7.5
+## Features
 
-## 1.0 - 2020-7-3
-- Added scroll to turn so that switching to next turn / previous turn does scroll to top for combat tracker
-- Changing remember last popout size to true by default
-- Stable release
+- Adds resize support to Foundry sidebar popouts.
+- Supports default sidebar popout width and height settings.
+- Can remember sidebar popout size and position between sessions.
+- Keeps combat tracker scroll-to-turn behavior when reopening remembered combat popouts.
 
-## 0.7 - 2020-6-25
-- Changed scripts to esmodules
-- Resolved issue where pin-cushion was grabbing wrong registerSettings method this has been resolved by using esmodules
+## Changes
 
-## 0.6 - 2020-6-23
-- Added configuration menu
-    - Default Width
-    - Default Height
-    - Remember Size and Position
-- Popouts will now be opened according to the default width and height set in configuration menu (set per user)
-- If the "Remember Size and Position" option is enabled popouts will now re-open to the same size and position they were last closed at
-    - This is remembered in between sessions
-    - This is per user
-- Cleaned up code and removed some redundancies 
+### `1.6.1`
 
-## 0.5 - 2020-6-22
-- Migrated repo to github from gitlab, no feature changes
+- Verified against Foundry `14.362`.
+- Updated compatibility metadata for Foundry V14 and removed the stale maximum-version cap.
+- Ported the useful V13/ApplicationV2 sidebar popout work from PR [#22](https://github.com/Cardagon/popout-resizer/pull/22), credited to iconmaster5326.
+- Added V14-aware `renderApplicationV2` handling for sidebar popouts.
+- Uses Foundry's current `foundry.applications.ux.Draggable` class when available.
+- Hardened resize setup for missing handles and repeated renders.
+- Fixed saved-size setting updates so stored dimensions remain an object.
 
-## 0.4 - 2020-6-19
-- Fixing error introduced in 0.3
+## Credits
 
-## 0.3 - 2020-6-19
-- Adding support for PF2E
-
-## 0.2 - 2020-6-18
-- Fixing bug that would remove re-sizing when ending turn, or changing turn on the combat tracker
-
-## 0.1 - 2020-6-16
-- Ability to re-size popouts from the side toolbar
+Popout Resizer was created by Cardagon. This release credits iconmaster5326 for the prior V13 sidebar popout work in PR [#22](https://github.com/Cardagon/popout-resizer/pull/22), which informed the V14 compatibility update here.
