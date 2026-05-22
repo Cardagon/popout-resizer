@@ -4,10 +4,18 @@ Popout Resizer lets you resize Foundry VTT sidebar popout windows, including com
 
 ## Install
 
-Install Popout Resizer from Foundry's **Add-on Modules** screen with this manifest URL:
+In Foundry, open **Add-on Modules > Install Module**, paste a manifest URL into **Manifest URL**, and install.
+
+Official upstream channel:
 
 ```text
 https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json
+```
+
+Spencer's Foundry V14 compatibility build:
+
+```text
+https://github.com/SpencerZPoole/popout-resizer/releases/latest/download/module.json
 ```
 
 After installation, enable **Popout Resizer** in your world's **Manage Modules** menu.
