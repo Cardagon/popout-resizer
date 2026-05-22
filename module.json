@@ -1,35 +1,35 @@
 {
-	"id": "popout-resizer",
-	"name": "popout-resizer",
-	"title": "Popout Resizer",
-	"description": "A simple module that allows you to resize the side toolbar popouts such as the combat tracker, scenes, actors and compendiums.",
-	"version": "1.5.1",
-	"author": "cardagon",
-    "authors": [{ "name": "cardagon" }],
-	"compatibility": {
-	    "minimum": 9,
-    	"verified": "11.306",
-    	"maximum": "11"
-	},
-	"esmodules": [
-		"./main.js"
-	],
-	"styles": [
-		"./popout-resizer.css"
-	],
-	"url": "https://github.com/Cardagon/popout-resizer",
-	"download": "https://github.com/Cardagon/popout-resizer/releases/download/v1.5.1/v1.5.1.zip",
-	"manifest": "https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json",
-	"languages": [
-		{
-			"lang": "en",
-			"name": "English",
-			"path": "lang/en.json"
-		},
-		{
-			"lang": "de",
-			"name": "Deutsch",
-			"path": "lang/de.json"
-		}
-	]
+  "id": "popout-resizer",
+  "name": "popout-resizer",
+  "title": "Popout Resizer",
+  "description": "A simple module that allows users to resize sidebar popouts such as combat, scenes, actors, journals, items, tables, playlists, compendiums, and configuration.",
+  "version": "1.6.1",
+  "author": "cardagon",
+  "authors": [
+    { "name": "cardagon" },
+    { "name": "iconmaster5326", "url": "https://github.com/iconmaster5326" }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14.362"
+  },
+  "esmodules": ["./main.js"],
+  "styles": ["./popout-resizer.css"],
+  "readme": "https://github.com/Cardagon/popout-resizer#readme",
+  "url": "https://github.com/Cardagon/popout-resizer",
+  "download": "https://github.com/Cardagon/popout-resizer/releases/download/v1.6.1/module.zip",
+  "manifest": "https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json",
+  "bugs": "https://github.com/Cardagon/popout-resizer/issues",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    }
+  ]
 }

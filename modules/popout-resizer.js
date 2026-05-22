@@ -1,98 +1,217 @@
+import { MODULE_ID } from "./constants.js";
+
+const MINIMUM_SIZE = 200;
+
 /**
- * Static class that handles the sidebar tab rendered hook
+ * Static class that handles sidebar popout render hooks.
  */
 export class PopoutResizer {
+  static defaultWidth = 300;
+  static defaultHeight = 400;
+  static rememberSize = false;
+  static popoutResizerSettings = {};
+  static handledApps = new WeakSet();
 
-    static defaultWidth = 300;
-    static defaultHeight = 400;
-    static rememberSize = false;
-    static popoutResizerSettings = null;
+  static sidebarTabRendered(app, html) {
+    PopoutResizer.handleRenderedApp(app, html, true);
+  }
 
-    static sidebarTabRendered(obj, html, data) {
+  static applicationV2Rendered(app, html) {
+    PopoutResizer.handleRenderedApp(app, html);
+  }
 
-        // Only handle this event if the obj in question is a popout
-        if(obj.options.popOut){
+  static handleRenderedApp(app, html, allowLegacySidebar = false) {
+    const element = PopoutResizer.getElement(app, html);
+    if (
+      !app ||
+      !element ||
+      !PopoutResizer.isSidebarPopout(app, element, allowLegacySidebar)
+    )
+      return;
 
-            // Get existing size data
-            let resizeData = PopoutResizer.popoutResizerSettings[obj.tabName];
-            let resizeHandled = obj.resizeHandled;
+    PopoutResizer.popoutResizerSettings ??= {};
 
-            if(!resizeHandled){
-                var resizablePopout = new ResizablePopout(obj, html);
-            }
+    const appKey = PopoutResizer.getStorageKey(app);
+    const alreadyHandled =
+      PopoutResizer.handledApps.has(app) ||
+      element.dataset.popoutResizerHandled === "true";
 
-            // If we are supposed to remember size or if the popout is already open
-            if(resizeData && (resizeHandled || PopoutResizer.rememberSize)) {
-                obj.setPosition({left: resizeData.left, top: resizeData.top, width: resizeData.width, height: resizeData.height});
-                if(obj.tabName === 'combat') {
-                    obj.scrollToTurn();
-                }
-            } else {
-                obj.setPosition({width: PopoutResizer.defaultWidth, height: PopoutResizer.defaultHeight});
-            }
-        }
+    if (!alreadyHandled) {
+      new ResizablePopout(app, element, appKey);
+      PopoutResizer.handledApps.add(app);
+      element.dataset.popoutResizerHandled = "true";
     }
+
+    const resizeData = PopoutResizer.popoutResizerSettings[appKey];
+
+    if (resizeData && (alreadyHandled || PopoutResizer.rememberSize)) {
+      PopoutResizer.applyResizeData(app, resizeData);
+      if (PopoutResizer.isCombatTracker(app, appKey)) app.scrollToTurn?.();
+    } else if (!alreadyHandled) {
+      app.setPosition?.({
+        width: Math.max(PopoutResizer.defaultWidth, MINIMUM_SIZE),
+        height: Math.max(PopoutResizer.defaultHeight, MINIMUM_SIZE),
+      });
+    }
+  }
+
+  static getElement(app, html) {
+    const fromHtml = PopoutResizer.getFirstElement(html);
+
+    if (fromHtml) return fromHtml.closest?.(".app, .application") ?? fromHtml;
+
+    const appElement =
+      PopoutResizer.getFirstElement(app?.element) ??
+      PopoutResizer.getFirstElement(app?._element);
+
+    return appElement?.closest?.(".app, .application") ?? appElement;
+  }
+
+  static getFirstElement(value) {
+    if (!value) return null;
+    if (PopoutResizer.isHTMLElement(value)) return value;
+
+    const first = value[0];
+    if (PopoutResizer.isHTMLElement(first)) return first;
+
+    return null;
+  }
+
+  static isHTMLElement(value) {
+    const HTMLElementCtor = value?.ownerDocument?.defaultView?.HTMLElement;
+    return Boolean(HTMLElementCtor && value instanceof HTMLElementCtor);
+  }
+
+  static isSidebarPopout(app, element, allowLegacySidebar = false) {
+    if (element?.classList?.contains("sidebar-popout")) return true;
+    if (element?.closest?.(".sidebar-popout")) return true;
+
+    return Boolean(
+      allowLegacySidebar && app?.options?.popOut && (app.tabName || app.id),
+    );
+  }
+
+  static getStorageKey(app) {
+    return String(
+      app.tabName ||
+        app.id ||
+        app.options?.id ||
+        app.title ||
+        app.constructor?.name,
+    );
+  }
+
+  static isCombatTracker(app, appKey) {
+    return app.tabName === "combat" || appKey.toLowerCase().includes("combat");
+  }
+
+  static applyResizeData(app, resizeData) {
+    const position = {};
+
+    for (const property of ["left", "top", "width", "height"]) {
+      const rawValue = resizeData[property];
+      if (rawValue === null || rawValue === undefined) continue;
+
+      const value = Number(rawValue);
+      if (Number.isFinite(value)) position[property] = value;
+    }
+
+    if (Object.keys(position).length) app.setPosition?.(position);
+  }
+
+  static saveResizeData(appKey, resizeData) {
+    PopoutResizer.popoutResizerSettings = {
+      ...(PopoutResizer.popoutResizerSettings ?? {}),
+      [appKey]: resizeData,
+    };
+
+    const save = game.settings.set(
+      MODULE_ID,
+      "popout-resizer-settings",
+      PopoutResizer.popoutResizerSettings,
+    );
+
+    save?.catch?.((error) => {
+      console.warn("Popout Resizer | Failed to save popout size", error);
+    });
+  }
 }
 
 /**
- * Wrapper class for resizable popout
+ * Wrapper class for resizable popouts.
  */
 class ResizablePopout {
-    constructor(app, html) {
-        this.app = app;
-        this.html = html;
+  constructor(app, element, appKey) {
+    this.app = app;
+    this.element = element;
+    this.appKey = appKey;
+    this._onDragMouseUp = this._onDragMouseUp.bind(this);
+    this._onResizeMouseUp = this._onResizeMouseUp.bind(this);
 
-        const header = html.find('header')[0];
-        header.addEventListener('pointerdown', e => this._onDragMouseDown(e), false);
-        
-        this.dragHandler = new Draggable(app, html, header, true);
-        
-        this.handle = this.html.find('.window-resizable-handle')[0];
-        if(this.handle) {
-            this.handle.addEventListener('pointerdown', e => this._onResizeMouseDown(e), false);
-        } else {
-            console.error(game.i18n.format('POPOUTRESIZER.NoResizeHandlerError', {appId : this.app.id}));
-        }
+    const header = element.querySelector("header.window-header, header");
+    if (header) {
+      header.addEventListener(
+        "pointerdown",
+        (event) => this._onDragMouseDown(event),
+        false,
+      );
 
-        this.app.resizeHandled = true;
-        this.app.options.height = null;
+      const DraggableClass =
+        foundry?.applications?.ux?.Draggable ?? globalThis.Draggable;
+      if (DraggableClass) {
+        this.dragHandler = new DraggableClass(app, element, header, true);
+      }
     }
 
-    _onDragMouseDown(event) {
-        window.addEventListener('pointerup', e => this._onDragMouseUp(e), false);
+    this.handle = element.querySelector(".window-resizable-handle");
+    if (this.handle) {
+      this.handle.addEventListener(
+        "pointerdown",
+        (event) => this._onResizeMouseDown(event),
+        false,
+      );
+    } else {
+      console.warn(
+        game.i18n.format("POPOUTRESIZER.NoResizeHandlerError", {
+          appId: this.app.id,
+        }),
+      );
     }
 
-    _onDragMouseUp(event) {
-        window.removeEventListener('pointerup', e => this._onDragMouseUp(e), false);
+    if (this.app.options) this.app.options.height = null;
+  }
 
-        let resizeData = {
-            width: this.app.position.width, 
-            height: this.app.position.height, 
-            top: this.app.position.top, 
-            left: this.app.position.left
-        };
+  _onDragMouseDown(event) {
+    const eventWindow = event.view ?? window;
+    eventWindow.addEventListener("pointerup", this._onDragMouseUp, {
+      once: true,
+    });
+  }
 
-        PopoutResizer.popoutResizerSettings[this.app.tabName] = resizeData;
-        game.settings.set('popout-resizer', 'popout-resizer-settings', PopoutResizer.popoutResizerSettings);
-    }
+  _onDragMouseUp() {
+    this._saveCurrentPosition();
+  }
 
-    // Begin capturing mouse up events to record new window size
-    _onResizeMouseDown(event) {
-        window.addEventListener('pointerup', e => this._onResizeMouseUp(e), false);
-    }
+  _onResizeMouseDown(event) {
+    const eventWindow = event.view ?? window;
+    eventWindow.addEventListener("pointerup", this._onResizeMouseUp, {
+      once: true,
+    });
+  }
 
-    // On mouse up record window size as the resize event has ended
-    _onResizeMouseUp(event) {
-        window.removeEventListener('pointerup', e => this._onResizeMouseUp(e), false);
+  _onResizeMouseUp() {
+    this._saveCurrentPosition();
+  }
 
-        let resizeData = {
-            width: this.app.position.width, 
-            height: this.app.position.height, 
-            top: this.app.position.top, 
-            left: this.app.position.left
-        };
+  _saveCurrentPosition() {
+    const position = this.app.position ?? {};
+    const resizeData = {
+      width: position.width,
+      height: position.height,
+      top: position.top,
+      left: position.left,
+    };
 
-        PopoutResizer.popoutResizerSettings[this.app.tabName] = resizeData;
-        game.settings.set('popout-resizer', 'popout-resizer-settings', PopoutResizer.popoutResizerSettings);
-    }
+    PopoutResizer.saveResizeData(this.appKey, resizeData);
+  }
 }
