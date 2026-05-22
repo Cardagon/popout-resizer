@@ -1,9 +1,9 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  release:
+    types:
+      - published
 
 jobs:
   release:
@@ -24,11 +24,10 @@ jobs:
             -x "module.zip" \
             -x "*.zip"
 
-      - name: Create GitHub release
+      - name: Upload release assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" \
-            --title "${GITHUB_REF_NAME}" \
-            --notes "Popout Resizer ${GITHUB_REF_NAME}" \
-            module.json module.zip
+          gh release upload "${{ github.event.release.tag_name }}" \
+            module.json module.zip \
+            --clobber
