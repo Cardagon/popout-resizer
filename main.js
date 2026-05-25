@@ -5,7 +5,6 @@ Hooks.once("init", () => {
   PopoutSettings.registerSettings();
   PopoutSettings.initializeSettings();
 
-  Hooks.on("renderSidebarTab", PopoutResizer.PopoutResizer.sidebarTabRendered);
   Hooks.on(
     "renderApplicationV2",
     PopoutResizer.PopoutResizer.applicationV2Rendered,
@@ -14,7 +13,7 @@ Hooks.once("init", () => {
   if (game.system?.id === "pf2e") {
     Hooks.on(
       "renderCombatTracker",
-      PopoutResizer.PopoutResizer.sidebarTabRendered,
+      PopoutResizer.PopoutResizer.applicationV2Rendered,
     );
   }
 });

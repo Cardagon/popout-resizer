@@ -3,7 +3,7 @@
   "name": "popout-resizer",
   "title": "Popout Resizer",
   "description": "A simple module that allows users to resize sidebar popouts such as combat, scenes, actors, journals, items, tables, playlists, compendiums, and configuration.",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "author": "cardagon",
   "authors": [
     { "name": "cardagon" },
@@ -17,7 +17,7 @@
   "styles": ["./popout-resizer.css"],
   "readme": "https://github.com/Cardagon/popout-resizer#readme",
   "url": "https://github.com/Cardagon/popout-resizer",
-  "download": "https://github.com/Cardagon/popout-resizer/releases/download/v1.6.1/module.zip",
+  "download": "https://github.com/Cardagon/popout-resizer/releases/download/v1.6.2/module.zip",
   "manifest": "https://raw.githubusercontent.com/Cardagon/popout-resizer/master/module.json",
   "bugs": "https://github.com/Cardagon/popout-resizer/issues",
   "languages": [

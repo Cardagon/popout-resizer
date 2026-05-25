@@ -10,61 +10,78 @@ export class PopoutResizer {
   static defaultHeight = 400;
   static rememberSize = false;
   static popoutResizerSettings = {};
-  static handledApps = new WeakSet();
-
-  static sidebarTabRendered(app, html) {
-    PopoutResizer.handleRenderedApp(app, html, true);
-  }
+  static appStates = new WeakMap();
 
   static applicationV2Rendered(app, html) {
     PopoutResizer.handleRenderedApp(app, html);
   }
 
-  static handleRenderedApp(app, html, allowLegacySidebar = false) {
-    const element = PopoutResizer.getElement(app, html);
-    if (
-      !app ||
-      !element ||
-      !PopoutResizer.isSidebarPopout(app, element, allowLegacySidebar)
-    )
-      return;
-
+  static handleRenderedApp(app, html) {
     PopoutResizer.popoutResizerSettings ??= {};
+    if (!PopoutResizer.isSupportedApp(app)) return;
+
+    const shell = PopoutResizer.getShell(app, html);
+    if (!shell) return;
+
+    const state = PopoutResizer.getAppState(app);
+    PopoutResizer.ensureSingleResizeHandle(shell);
+    PopoutResizer.scheduleResizeHandleCleanup(app, shell);
 
     const appKey = PopoutResizer.getStorageKey(app);
-    const alreadyHandled =
-      PopoutResizer.handledApps.has(app) ||
-      element.dataset.popoutResizerHandled === "true";
-
-    if (!alreadyHandled) {
-      new ResizablePopout(app, element, appKey);
-      PopoutResizer.handledApps.add(app);
-      element.dataset.popoutResizerHandled = "true";
+    const isNewShell = state.shell !== shell;
+    if (isNewShell) {
+      state.shell = shell;
+      state.resizer = new ResizablePopout(app, shell, appKey);
     }
 
+    PopoutResizer.ensurePositionListener(app, state);
     const resizeData = PopoutResizer.popoutResizerSettings[appKey];
 
-    if (resizeData && (alreadyHandled || PopoutResizer.rememberSize)) {
-      PopoutResizer.applyResizeData(app, resizeData);
-      if (PopoutResizer.isCombatTracker(app, appKey)) app.scrollToTurn?.();
-    } else if (!alreadyHandled) {
-      app.setPosition?.({
+    if (resizeData && PopoutResizer.rememberSize) {
+      PopoutResizer.queuePositionRestore(app, state, resizeData, {
+        scrollToTurn: PopoutResizer.isCombatTracker(app, appKey),
+      });
+    } else if (isNewShell) {
+      PopoutResizer.queuePositionRestore(app, state, {
         width: Math.max(PopoutResizer.defaultWidth, MINIMUM_SIZE),
         height: Math.max(PopoutResizer.defaultHeight, MINIMUM_SIZE),
       });
     }
   }
 
-  static getElement(app, html) {
-    const fromHtml = PopoutResizer.getFirstElement(html);
+  static isSupportedApp(app) {
+    return (
+      app instanceof foundry.applications.sidebar.AbstractSidebarTab &&
+      app.isPopout
+    );
+  }
 
-    if (fromHtml) return fromHtml.closest?.(".app, .application") ?? fromHtml;
-
+  static getShell(app, html) {
     const appElement =
       PopoutResizer.getFirstElement(app?.element) ??
       PopoutResizer.getFirstElement(app?._element);
 
-    return appElement?.closest?.(".app, .application") ?? appElement;
+    if (appElement) return appElement.closest?.(".app, .application") ?? appElement;
+
+    const fromHtml = PopoutResizer.getFirstElement(html);
+    return fromHtml?.closest?.(".app, .application") ?? fromHtml;
+  }
+
+  static getAppState(app) {
+    let state = PopoutResizer.appStates.get(app);
+    if (state) return state;
+
+    state = {
+      shell: null,
+      resizer: null,
+      positionListenerAttached: false,
+      pendingPosition: null,
+      applyingPosition: false,
+      flushScheduled: false,
+      cleanupScheduled: false,
+    };
+    PopoutResizer.appStates.set(app, state);
+    return state;
   }
 
   static getFirstElement(value) {
@@ -82,15 +99,6 @@ export class PopoutResizer {
     return Boolean(HTMLElementCtor && value instanceof HTMLElementCtor);
   }
 
-  static isSidebarPopout(app, element, allowLegacySidebar = false) {
-    if (element?.classList?.contains("sidebar-popout")) return true;
-    if (element?.closest?.(".sidebar-popout")) return true;
-
-    return Boolean(
-      allowLegacySidebar && app?.options?.popOut && (app.tabName || app.id),
-    );
-  }
-
   static getStorageKey(app) {
     return String(
       app.tabName ||
@@ -103,6 +111,86 @@ export class PopoutResizer {
 
   static isCombatTracker(app, appKey) {
     return app.tabName === "combat" || appKey.toLowerCase().includes("combat");
+  }
+
+  static ensureSingleResizeHandle(element) {
+    const handles = element.querySelectorAll(".window-resizable-handle");
+    if (handles.length <= 1) return;
+
+    for (const handle of Array.from(handles).slice(1)) {
+      handle.remove();
+    }
+  }
+
+  static scheduleResizeHandleCleanup(app, element) {
+    if (!app || !element) return;
+
+    const state = PopoutResizer.getAppState(app);
+    if (state.cleanupScheduled) return;
+
+    const elementWindow = element.ownerDocument?.defaultView ?? globalThis;
+    const scheduleFrame =
+      elementWindow.requestAnimationFrame?.bind(elementWindow) ??
+      ((callback) => elementWindow.setTimeout(callback, 0));
+
+    state.cleanupScheduled = true;
+    scheduleFrame(() => {
+      state.cleanupScheduled = false;
+      if (!element.isConnected) return;
+      PopoutResizer.ensureSingleResizeHandle(element);
+    });
+  }
+
+  static ensurePositionListener(app, state) {
+    if (!app || state.positionListenerAttached) return;
+
+    app.addEventListener("position", () => {
+      PopoutResizer.flushPendingPosition(app, state);
+    });
+
+    state.positionListenerAttached = true;
+  }
+
+  static queuePositionRestore(app, state, resizeData, options = {}) {
+    if (!app || !state || !resizeData) return;
+
+    state.pendingPosition = {
+      resizeData,
+      scrollToTurn: options.scrollToTurn === true,
+    };
+    PopoutResizer.schedulePendingPositionFlush(app, state);
+  }
+
+  static schedulePendingPositionFlush(app, state) {
+    if (!app || !state || state.flushScheduled) return;
+
+    const appWindow = state.shell?.ownerDocument?.defaultView ?? globalThis;
+    const scheduleFrame =
+      appWindow.requestAnimationFrame?.bind(appWindow) ??
+      ((callback) => appWindow.setTimeout(callback, 0));
+
+    state.flushScheduled = true;
+    scheduleFrame(() => {
+      state.flushScheduled = false;
+      PopoutResizer.flushPendingPosition(app, state);
+    });
+  }
+
+  static flushPendingPosition(app, state = PopoutResizer.getAppState(app)) {
+    if (!app || !state || state.applyingPosition) return;
+
+    const pending = state.pendingPosition;
+    if (!pending) return;
+
+    state.pendingPosition = null;
+    state.applyingPosition = true;
+
+    try {
+      PopoutResizer.applyResizeData(app, pending.resizeData);
+      if (pending.scrollToTurn) app.scrollToTurn?.();
+    } finally {
+      state.applyingPosition = false;
+    }
   }
 
   static applyResizeData(app, resizeData) {
@@ -177,8 +265,6 @@ class ResizablePopout {
         }),
       );
     }
-
-    if (this.app.options) this.app.options.height = null;
   }
 
   _onDragMouseDown(event) {
