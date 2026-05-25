@@ -37,6 +37,12 @@ This release keeps the original module behavior while making sidebar popout resi
 
 ## Changes
 
+### `1.6.2`
+
+- Fixed an issue where duplicate resizing icons were showing when adding combatants
+- Fixed an issue where saved position and size were not being respected adding window data
+
+
 ### `1.6.1`
 
 - Verified against Foundry `14.362`.
